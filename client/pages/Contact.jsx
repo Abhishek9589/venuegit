@@ -43,27 +43,49 @@ const contactInfo = [
 export default function Contact() {
   const [result, setResult] = React.useState("");
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
-    setResult("Sending....");
+
     const formData = new FormData(event.target);
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const phone = formData.get("phone");
+    const subject = formData.get("subject");
+    const message = formData.get("message");
 
-    formData.append("access_key", "a22a832e-38d0-4318-aad2-d879834ad00c");
+    // Construct the email body
+    const emailBody = `
+Hi,
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData
-    });
+I am reaching out through the VenueKart contact form.
 
-    const data = await response.json();
+Name: ${name}
+Email: ${email}
+Phone: ${phone || 'Not provided'}
 
-    if (data.success) {
-      setResult("Form Submitted Successfully");
+Subject: ${subject}
+
+Message:
+${message}
+
+Best regards,
+${name}
+    `.trim();
+
+    // Create mailto link
+    const mailtoLink = `mailto:abhishekkushwaha95892@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+
+    // Open email client
+    window.location.href = mailtoLink;
+
+    // Show success message
+    setResult("Opening your email client with the message pre-filled. Just click send!");
+
+    // Reset form after a brief delay
+    setTimeout(() => {
       event.target.reset();
-    } else {
-      console.log("Error", data);
-      setResult(data.message);
-    }
+      setResult("");
+    }, 3000);
   };
 
   return (

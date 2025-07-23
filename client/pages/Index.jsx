@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -115,16 +116,38 @@ export default function Index() {
       <section className="relative bg-gradient-to-br from-venue-indigo via-venue-purple to-venue-indigo py-20 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-poppins">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl md:text-6xl font-bold text-white mb-6 font-poppins"
+          >
             Find Your Perfect
-            <span className="block text-venue-lavender">Event Venue</span>
-          </h1>
-          <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="block text-venue-lavender"
+            >
+              Event Venue
+            </motion.span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            className="text-xl text-white/90 mb-8 max-w-3xl mx-auto"
+          >
             Discover and book the ideal venue for your special occasions. From intimate gatherings to grand celebrations, find spaces that make memories.
-          </p>
+          </motion.p>
           
           {/* Search Bar */}
-          <div className="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-2xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            className="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-2xl"
+          >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
@@ -144,7 +167,7 @@ export default function Index() {
                   className="pl-10 h-12 border-gray-200 focus:border-venue-indigo"
                 />
               </div>
-              <Button 
+              <Button
                 onClick={handleSearch}
                 className="h-12 bg-venue-indigo hover:bg-venue-purple text-white font-semibold"
               >
@@ -152,39 +175,60 @@ export default function Index() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-16"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-venue-dark mb-4">
               Why Choose VenueKart?
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               We make venue booking simple, transparent, and reliable with our premium features
             </p>
-          </div>
+          </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
-                  <CardHeader>
-                    <div className="w-16 h-16 bg-venue-lavender rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Icon className="h-8 w-8 text-venue-indigo" />
-                    </div>
-                    <CardTitle className="text-venue-dark">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-gray-600">
-                      {feature.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    ease: "easeOut"
+                  }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  whileHover={{
+                    y: -5,
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  <Card className="text-center hover:shadow-lg transition-shadow duration-300 h-full">
+                    <CardHeader>
+                      <div className="w-16 h-16 bg-venue-lavender rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Icon className="h-8 w-8 text-venue-indigo" />
+                      </div>
+                      <CardTitle className="text-venue-dark">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-gray-600">
+                        {feature.description}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               );
             })}
           </div>
@@ -194,14 +238,20 @@ export default function Index() {
       {/* Popular Venues */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-16"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-venue-dark mb-4">
               Popular Venues
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Discover our most loved venues, perfect for any celebration
             </p>
-          </div>
+          </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {popularVenues.map((venue) => (
